@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fondation Tcheunte de Bafoussam - Gestion des Stagiaires</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables CSS */
+        :root {
+            --primary: violet clair; /* Rose foncé */
+            --secondary:violet clair; /* Rose vif */
+            --accent: #C2185B; /* Rose accent */
+            --light: #FCE4EC; /* Rose très clair */
+            --dark: #6A1B4D; /* Rose très foncé */
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+        }
+
+        /* Mode nuit */
+        .dark-mode {
+            --primary: violet clair; /* Rose plus clair pour le mode nuit */
+            --secondary:violet clair; /* Rose vif */
+            --accent: #d67cc0; /* Rose accent */
+            --light: #2D0B1A; /* Fond sombre */
+            --dark: #F8BBD9; /* Texte clair */
+            --bg-color: #1A0A12;
+            --text-color: #F8BBD9;
+            --card-bg: #2D0B1A;
+        }
+        
+        /* Reset et styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Times New Roman', Times, serif
+        }
+        
+        body {
+            line-height: 1.6;
+            color: var(--text-color);
+            overflow-x: hidden;
+            background-color: violet clair;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header et Navigation */
+        header {
+            background-color: var(--primary);
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            margin-right: 10px;
+            color: var(--light);
+            height: 50px;
+;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .nav-menu li {
+            margin-left: 30px;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--light);
+        }
+        
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--light);
+            transition: var(--transition);
+        }
+        
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+        
+        .btn-connexion {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-connexion:hover {
+            background-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Bouton mode nuit */
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 20px;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Section Accueil */
+        #accueil {
+            height: 100vh;
+            background: linear-gradient(rgba(62, 74, 187, 0.8), rgba(195, 170, 235, 0.9)), url('https://images.unsplash.com/photo-1584467735871-8db9ac8e5e3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+        }
+        
+        .accueil-content {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .accueil-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            animation: slideUp 1s ease-out;
+        }
+        
+        .accueil-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            animation: slideUp 1s ease-out 0.3s both;
+        }
+        
+        .btn-nos-partenaires {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            animation: slideUp 1s ease-out 0.6s both;
+        }
+        
+        .btn-nos-partenaires:hover {
+            background-color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Section À propos */
+        #a-propos {
+            padding: 100px 0;
+            background-color: var(--light);
+            transition: var(--transition);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background-color: var(--secondary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .a-propos-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .a-propos-img {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            animation: fadeInLeft 1s ease-out;
+        }
+        
+        .a-propos-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+        
+        .a-propos-img:hover img {
+            transform: scale(1.05);
+        }
+        
+        .a-propos-text {
+            flex: 1;
+            animation: fadeInRight 1s ease-out;
+        }
+        
+        .a-propos-text h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .a-propos-text p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* Statistiques */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+        
+        /* Section Partenaires */
+        #partenaires {
+            padding: 100px 0;
+            background-color: var(--bg-color);
+            transition: var(--transition);
+        }
+        
+        .partenaires-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .partenaire-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .partenaire-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .partenaire-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .partenaire-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .partenaire-card:hover .partenaire-img img {
+            transform: scale(1.1);
+        }
+        
+        .partenaire-info {
+            padding: 20px;
+        }
+        
+        .partenaire-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .partenaire-info p {
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+        
+        .btn-postuler {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+        
+        .btn-postuler:hover {
+            background-color: var(--accent);
+        }
+        
+        /* Section Contact */
+        #contact {
+            padding: 100px 0;
+            background-color: var(--light);
+            transition: var(--transition);
+        }
+        
+        .contact-container {
+            display: flex;
+            gap: 50px;
+        }
+        
+        .contact-info {
+            flex: 1;
+            animation: fadeInLeft 1s ease-out;
+        }
+        
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .contact-details {
+            margin-bottom: 30px;
+        }
+        
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .contact-detail i {
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .contact-form {
+            flex: 1;
+            animation: fadeInRight 1s ease-out;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .btn-envoyer {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-envoyer:hover {
+            background-color: var(--dark);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+            transition: var(--transition);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            margin-right: 30px;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--light);
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Modal de connexion */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--accent);
+        }
+
+        .modal-body .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn-modal {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-modal:hover {
+            background-color: var(--accent);
+        }
+
+        .modal-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .modal-footer a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .modal-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInLeft {
+            from { 
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from { 
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .a-propos-content {
+                flex-direction: column;
+            }
+            
+            .contact-container {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .footer-section {
+                margin-right: 0;
+                margin-bottom: 30px;
+            }
+
+            .stats {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: var(--primary);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: var(--transition);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-menu li {
+                margin: 15px 0;
+            }
+            
+            .accueil-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .accueil-content h1 {
+                font-size: 2rem;
+            }
+            
+            .partenaires-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header et Navigation -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo">
+                <img class="fas fa-graduation-cap" src="numérisation0010.jpg"></img>
+                Fondation Tchuente
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#a-propos">À propos</a></li>
+                <li><a href="#partenaires">Nos Partenaires</a></li>
+                <li><a href="#contact">Contacts</a></li>
+                <li><button class="btn-connexion"><a href="login.php">Connexion</a></button></li>
+                <li>
+                    <button class="theme-toggle" title="Basculer le mode nuit">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Section Accueil -->
+    <section id="accueil">
+        <div class="container">
+            <div class="accueil-content">
+                <h1>Bienvenue à la Fondation Tchuente de Bafoussam</h1>
+                <p>Découvrez des opportunités de stage exceptionnelles dans le domaine de la santé et développez vos compétences avec nos partenaires hospitaliers de premier plan.</p>
+                <button class="btn-nos-partenaires">Découvrir nos partenaires</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section À propos -->
+    <section id="a-propos">
+        <div class="container">
+            <div class="section-title">
+                <h2>À propos de nous</h2>
+            </div>
+            <div class="a-propos-content">
+                <div class="a-propos-img">
+                    <img src="numérisation0010.jpg" alt="Fondation Tcheunte de Bafoussam">
+                </div>
+                <div class="a-propos-text">
+                    <h3>Fondation Tchuente de Bafoussam</h3>
+                    <p>La Fondation Tchuente de Bafoussam est une institution d'enseignement supérieur dédiée à la formation des professionnels de santé. Fondée sur des valeurs chrétiennes, notre mission est de préparer la prochaine génération de soignants à servir avec compassion et excellence.</p>
+                    <p>Nous offrons des programmes de formation de qualité, combinant théorie et pratique, pour assurer que nos étudiants sont bien préparés aux défis du monde médical moderne.</p>
+                    <p>Notre approche éducative est centrée sur l'étudiant, avec un accent sur le développement personnel et professionnel, l'éthique et l'engagement communautaire.</p>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Partenaires -->
+    <section id="partenaires">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nos Partenaires Hospitaliers</h2>
+            </div>
+            <div class="partenaires-grid">
+                <!-- Partenaire 1 -->
+                <div class="partenaire-card">
+                    <div class="partenaire-img">
+                        <img src="Screenshot_24-9-2025_82033_www.bing.com.jpeg" alt="Hôpital Central de Bafoussam">
+                    </div>
+                    <div class="partenaire-info">
+                        <h3>Hôpital Régional de Bafoussam</h3>
+                        <p>L'hopital régional de Bafoussam est un hôpital de référence qui vous propose des soins de qualité, grâce à des équipements de pointe; un plateau technique relevé et un personnel dévoué.</p>
+                    </div>
+                </div>
+                
+                <!-- Partenaire 2 -->
+                <div class="partenaire-card">
+                    <div class="partenaire-img">
+                        <img src="Screenshot_24-9-2025_11858_www.bing.com.jpeg" alt="hopital de district de Bafoussam">
+                    </div>
+                    <div class="partenaire-info">
+                        <h3>Hôpital de District de Bafoussam</h3>
+                        <p>L’Hôpital de district de la Mifi est implanté au quartier Famla, dans l’arrondissement de Bafoussam 1er, Région de l’Ouest..</p>
+                    </div>
+                </div>
+                
+                <!-- Partenaire 3 -->
+                <div class="partenaire-card">
+                    <div class="partenaire-img">
+                        <img src="Screenshot_24-9-2025_111643_www.bing.com.jpeg" alt="CMA TYO de Baleng">
+                    </div>
+                    <div class="partenaire-info">
+                        <h3>CMA TYO de Baleng</h3>
+                        <p>Des interventions de toutes sortes existent et, selon leur degré de complexité, elles peuvent être effectuées dans le cadre de consultations générales ou de consultations plus spécialisées</p>
+                    </div>
+                </div>
+                <button class="btn-connexion"><a href="demande_stage.php">postuler</a></button>
+            </section>
+                
+               
+    <!-- Section Contact -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contactez-nous</h2>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Informations de contact</h3>
+                    <div class="contact-details">
+                        <div class="contact-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <p><strong>Adresse:</strong> Bafoussam, Cameroun</p>
+                            </div>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <p><strong>Téléphone:</strong>  (237) 233442264</p>
+                            </div>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <p><strong>Email:</strong> info@fondationtcheunte.org</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Envoyez-nous un message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nom complet</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Sujet</label>
+                            <input type="text" id="subject" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-envoyer">Envoyer le message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Fondation Tcheunte</h3>
+                    <p>La Fondation Tcheunte de Bafoussam est dédiée à l'excellence dans la formation des professionnels de santé, guidée par des valeurs chrétiennes.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Liens rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="#accueil">Accueil</a></li>
+                        <li><a href="#a-propos">À propos</a></li>
+                        <li><a href="#partenaires">Nos partenaires</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Nos filières</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">IDE</a></li>
+                        <li><a href="#">Aide-Soignants</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Fondation Tcheunte de Bafoussam. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de connexion -->
+
+
+    <script>
+        // Menu mobile toggle
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+        
+        // Fermer le menu mobile en cliquant sur un lien
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelector('.nav-menu').classList.remove('active');
+            });
+        });
+        
+        // Animation au défilement
+        window.addEventListener('scroll', function() {
+            const elements = document.querySelectorAll('.partenaire-card, .a-propos-img, .a-propos-text, .contact-info, .contact-form');
+            
+            elements.forEach(element => {
+                const position = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if(position < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        });
+        
+        // Initialisation des animations
+        window.addEventListener('load', function() {
+            const elements = document.querySelectorAll('.partenaire-card, .a-propos-img, .a-propos-text, .contact-info, .contact-form');
+            
+            elements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            });
+
+            // Animation des statistiques
+            animateStats();
+        });
+        
+        // Gestion du formulaire de contact
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Merci pour votre message! Nous vous répondrons dans les plus brefs délais.');
+            this.reset();
+        });
+        
+        // Smooth scroll pour les liens d'ancrage
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Animation du bouton "Découvrir nos partenaires"
+        document.querySelector('.btn-nos-partenaires').addEventListener('click', function() {
+            const partenairesSection = document.getElementById('partenaires');
+            window.scrollTo({
+                top: partenairesSection.offsetTop - 80,
+                behavior: 'smooth'
+            });
+        });
+
+        // Modal de connexion
+        const loginModal = document.getElementById('loginModal');
+        const loginBtn = document.querySelector('.btn-connexion');
+        const closeModal = document.querySelector('.close-modal');
+
+        loginBtn.addEventListener('click', function() {
+            loginModal.classList.add('active');
+        });
+
+        closeModal.addEventListener('click', function() {
+            loginModal.classList.remove('active');
+        });
+
+        loginModal.addEventListener('click', function(e) {
+            if (e.target === loginModal) {
+                loginModal.classList.remove('active');
+            }
+        });
+
+        // Formulaire de connexion
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Connexion réussie! Redirection en cours...');
+            this.reset();
+            loginModal.classList.remove('active');
+        });
+
+        // Mode nuit
+        const themeToggle = document.querySelector('.theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Animation des statistiques
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-count'));
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    stat.textContent = Math.floor(current);
+                }, 30);
+            });
+        }
+
+        // Animation au scroll pour les statistiques
+        const statsSection = document.querySelector('.stats');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(statsSection);
+    </script>
+</body>
+</html>
